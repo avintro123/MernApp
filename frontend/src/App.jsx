@@ -8,12 +8,6 @@ import { toast } from "react-hot-toast";
 export default function App() {
   return (
     <div data-theme="forest">
-      <button
-        onClick={() => toast.success("Lets Go!!")}
-        className="btn btn-primary"
-      >
-        Click me
-      </button>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
