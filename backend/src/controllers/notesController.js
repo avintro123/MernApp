@@ -24,7 +24,8 @@ export async function getANote(req, res) {
 export async function createANote(req, res) {
     try {
         const { title, content } = req.body;
-        const newNote = new Note({ title, content });
+        const pdf = req.file ? req.file.path : null;
+        const newNote = new Note({ title, content, pdf });
         await newNote.save();
         res.status(201).json(newNote);
     } catch (err) {

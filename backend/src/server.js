@@ -27,6 +27,7 @@ app.use(rateLimiter);
 // })
 
 app.use("/api/notes", notesRoute);
+app.use('/uploads', express.static('uploads'));
 
 connectDB().then(() => {
     app.listen(process.env.PORT, () => {

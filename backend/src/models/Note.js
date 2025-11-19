@@ -12,6 +12,10 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    pdf: {
+        type: String,
+        required: false,
+    },
 },
     {
         timestamps: true,

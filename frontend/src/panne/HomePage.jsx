@@ -1,10 +1,13 @@
+
 import React, { useEffect, useState } from "react";
-import Navabar from "../components/Navabar";
+import Navbar from "../components/Navbar";
 import RateLimitedUI from "../components/RateLimitedUI";
 import axios from "axios";
 import toast from "react-hot-toast";
 import NoteCard from "../components/NoteCard";
 import api from "../lib/axios";
+import NotesNotFound from "../components/NotesNotFound";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -13,6 +16,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchNotes = async () => {
+      setLoading(true);
       try {
         const res = await api.get("/notes");
         console.log(res.data);
@@ -35,8 +39,14 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <Navabar />
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen"
+    >
+      <Navbar />
 
       {isRateLimited && <RateLimitedUI />}
 
@@ -45,14 +55,16 @@ export default function HomePage() {
           <div className="text-center text-primary py-10">Loading notes...</div>
         )}
 
+        {notes.length === 0 && !isRateLimited && <NotesNotFound/>}
+
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
-              <NoteCard key={note._id} note={note} />
+              <NoteCard key={note._id} note={note} setNotes={setNotes} />
             ))}
           </div>
         )}
-      </div>
-    </div>
+      </div>  
+    </motion.div>
   );
 }

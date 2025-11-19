@@ -7,7 +7,9 @@ router.get("/", getAllNotes);
 
 router.get("/:id", getANote);
 
-router.post("/", createANote);
+import upload from '../middleware/upload.js';
+
+router.post("/", upload.single('pdf'), createANote);
 
 router.put("/:id", updateANote);
 
